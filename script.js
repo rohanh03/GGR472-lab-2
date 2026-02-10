@@ -3,8 +3,8 @@ mapboxgl.accessToken = 'pk.eyJ1Ijoicm9oYW4yMDAzIiwiYSI6ImNtazRrYTVtMDA4OTEzbW91Y
 const map = new mapboxgl.Map({
     container: 'my-map',
     style: 'mapbox://styles/rohan2003/cmld7caru001a01ql6176cx3o',
-    center: [72.868, 19.075],
-    zoom: 10
+    center: [72.868, 19.065],
+    zoom: 10.59
 });
 
 map.on('load', () => {
@@ -35,6 +35,24 @@ map.on('load', () => {
     });
 
     map.addLayer({
+        'id': 'landmark-labels',
+        'type': 'symbol',
+        'source': 'mumbai-lm-data',
+        'source-layer': 'map-9q9num',
+        'layout': {
+            'text-field': ['get', 'Landmark'],
+            'text-size': 12,
+            'text-offset': [-1, -1],
+            'text-anchor': 'top'
+        },
+        'paint': {
+            'text-color': '#202',
+            'text-halo-color': '#fff',
+            'text-halo-width': 1
+        }
+    });
+
+    map.addLayer({
         'id': 'mumbai-lm-pt',
         'type': 'circle',
         'source': 'mumbai-lm-data',
@@ -48,21 +66,24 @@ map.on('load', () => {
         'id': 'mumbai-route1-line',
         'type': 'line',
         'source': 'mumbai-route1-data',
-        'layout':{
+        'layout': {
             'line-join': 'round',
             'line-cap': 'round'
         },
         'paint': {
             'line-color': '#C94122',
             'line-width': 4
-        }
-    });
+        },
+
+    },
+        'landmark-labels', 'mumbai-lm-pt'
+    );
 
     map.addLayer({
         'id': 'mumbai-route2-line',
         'type': 'line',
         'source': 'mumbai-route2-data',
-        'layout':{
+        'layout': {
             'line-join': 'round',
             'line-cap': 'round'
         },
@@ -70,13 +91,15 @@ map.on('load', () => {
             'line-color': '#57C922',
             'line-width': 4
         }
-    });
+    },
+        'landmark-labels'
+    );
 
     map.addLayer({
         'id': 'mumbai-route3-line',
         'type': 'line',
         'source': 'mumbai-route3-data',
-        'layout':{
+        'layout': {
             'line-join': 'round',
             'line-cap': 'round'
         },
@@ -84,13 +107,15 @@ map.on('load', () => {
             'line-color': '#22AAC9',
             'line-width': 4
         }
-    });
+    },
+        'landmark-labels'
+    );
 
     map.addLayer({
         'id': 'mumbai-route4-line',
         'type': 'line',
         'source': 'mumbai-route4-data',
-        'layout':{
+        'layout': {
             'line-join': 'round',
             'line-cap': 'round'
         },
@@ -98,6 +123,8 @@ map.on('load', () => {
             'line-color': '#9422C9',
             'line-width': 4
         }
-    });
+    },
+        'landmark-labels'
+    );
 });
 
