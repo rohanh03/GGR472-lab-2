@@ -1,19 +1,25 @@
+// Mapbox GL JS code to create a map of Mumbai with landmarks and routes
 mapboxgl.accessToken = 'pk.eyJ1Ijoicm9oYW4yMDAzIiwiYSI6ImNtazRrYTVtMDA4OTEzbW91YTBtOHhxczEifQ.ZVzMbtIQ2tihbIcpSl3fmQ'
 
+// Initialize the map with centering and zoom focused on Mumbai
 const map = new mapboxgl.Map({
     container: 'my-map',
+    // Use mapbox style I created with only the landmark points, landmark labels contained in a field called "Landmark"
     style: 'mapbox://styles/rohan2003/cmld7caru001a01ql6176cx3o',
     center: [72.868, 19.065],
     zoom: 10.59
 });
 
+// Load map sources and layers once the map has finished loading
 map.on('load', () => {
 
+    // Add a vector source for the Mumbai landmarks from mapbox, which includes both point and label data ('Landmark' field for labels)
     map.addSource('mumbai-lm-data', {
         type: 'vector',
         url: 'mapbox://rohan2003.cpbv0rmp'
     });
 
+    // Add GeoJSON sources for the four routes between the landmarks, with data hosted on GitHub
     map.addSource('mumbai-route1-data', {
         type: 'geojson',
         data: 'https://raw.githubusercontent.com/rohanh03/GGR472-lab-2/refs/heads/main/data/sgnp_to_mcaves.geojson'
@@ -34,12 +40,15 @@ map.on('load', () => {
         data: 'https://raw.githubusercontent.com/rohanh03/GGR472-lab-2/refs/heads/main/data/wfort_to_goi.geojson'
     });
 
+    // Add layers for the landmark points and labels
     map.addLayer({
         'id': 'landmark-labels',
         'type': 'symbol',
+        // Same source as the points
         'source': 'mumbai-lm-data',
         'source-layer': 'map-9q9num',
         'layout': {
+            // Use the 'Landmark' field from the source for the label text
             'text-field': ['get', 'Landmark'],
             'text-size': 12,
             'text-offset': [-1, -1],
@@ -52,6 +61,7 @@ map.on('load', () => {
         }
     });
 
+    // Add a layer for the landmark points
     map.addLayer({
         'id': 'mumbai-lm-pt',
         'type': 'circle',
@@ -62,6 +72,8 @@ map.on('load', () => {
         }
     });
 
+    // Add layers for the four routes, with different colors and placed below the landmark labels for visibility
+    // Colors chosen based on 'Tetradic' color scheme from htmlcolorcodes.com for good contrast and visibility on the map
     map.addLayer({
         'id': 'mumbai-route1-line',
         'type': 'line',
@@ -76,7 +88,7 @@ map.on('load', () => {
         },
 
     },
-        'landmark-labels', 'mumbai-lm-pt'
+        'landmark-labels'
     );
 
     map.addLayer({
